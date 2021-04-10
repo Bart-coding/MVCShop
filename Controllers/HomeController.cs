@@ -11,13 +11,6 @@ namespace MVCShop.Controllers
     {
         public ActionResult Index()
         {
-            MyDBContext context = new MyDBContext();
-            CategoryType categoryType = new CategoryType()
-            {
-                Name = "spożywcze"
-            };
-            context.CategoryTypes.Add(categoryType);
-            context.SaveChanges();
             return View();
         }
 
