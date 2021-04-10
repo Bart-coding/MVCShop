@@ -4,7 +4,7 @@ namespace MVCShop.Models
 {
     public class MyDBContext : DbContext
     {
-        public MyDBContext() : base("name=MyCS") { }
+        public MyDBContext() : base("MyCS") { }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
