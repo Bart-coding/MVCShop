@@ -1,22 +1,19 @@
-﻿namespace MVCShop.Migrations
+namespace MVCShop.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MVCShop.Models.MyDBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MVCShop.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(MVCShop.Models.MyDBContext context)
+        protected override void Seed(MVCShop.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
         }
     }
