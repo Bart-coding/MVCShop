@@ -65,6 +65,21 @@ namespace MVCShop.Models
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(30)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        [Display(Name = "Surname")]
+        public string Surname { get; set; }
+
+        [Required]
+        [StringLength(15)]
+        [Display(Name = "Login")]
+        public string Login { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -79,6 +94,32 @@ namespace MVCShop.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Display Netto Prices?")]
+        public bool Netto { get; set; }
+
+        [Display(Name = "Send a newsletter?")]
+        public bool Newsletter { get; set; }
+
+
+        [Required]
+        [DataType(DataType.PostalCode)]
+        [RegularExpression(@"([0-9]{2}-[0-9]{3})", ErrorMessage = "Incorrect Format")]
+        [StringLength(6, MinimumLength = 6, ErrorMessage = "The {0} must be at least {2} characters long.")]
+        [Display(Name = "PostalCode")]
+        public string PostalCode { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        [RegularExpression(@"(^[A-Z].*)", ErrorMessage = "The {0} must start with capital letter")]
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        [RegularExpression(@"((^[A-Z].*\s[0-9]*$)|(^[A-Z].*\s([0-9]*\/[0-9]*)$))", ErrorMessage = "The {0} must start with capital letter and have the apartament number")]
+        [Display(Name = "StreetAddress")]
+        public string StreetAddress { get; set; }
     }
 
     public class ResetPasswordViewModel

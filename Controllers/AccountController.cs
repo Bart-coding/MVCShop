@@ -1,14 +1,12 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MVCShop.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace MVCShop.Controllers
 {
@@ -17,6 +15,7 @@ namespace MVCShop.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -151,12 +150,32 @@ namespace MVCShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser 
+                {
+                    Name = model.FirstName,
+                    Surname = model.Surname,
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Newsletter = model.Newsletter,
+                    Netto = model.Netto
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
+                    //var currentUserID = User.Identity.GetUserId();
+
+                    var address = new Address
+                    {
+                        UserID = user.Id,
+                        PostalCode = model.PostalCode,
+                        City = model.City,
+                        StreetAddress = model.StreetAddress
+                    };
+                    db.Addresses.Add(address);
+                    await db.SaveChangesAsync();
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);

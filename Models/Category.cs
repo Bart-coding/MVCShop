@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVCShop.Models
 {
@@ -7,8 +8,11 @@ namespace MVCShop.Models
         public int CategoryID { get; set; }
         public string Name { get; set; }
         public bool Visible { get; set; }
-        public int CategoryTypeID { get; set; }
-        public virtual CategoryType CategoryType { get; set; }
+
+        [ForeignKey("CategoryType")]
+        public int? CategoryTypeID { get; set; }
+        public virtual Category CategoryType { get; set; }
+        public virtual ICollection<Category> SubCategories { get; set; }
         public virtual ICollection<Product> Products { get; set; }
     }
 }

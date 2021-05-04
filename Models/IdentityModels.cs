@@ -42,7 +42,6 @@ namespace MVCShop.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<CategoryType> CategoryTypes { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
     }
 }
