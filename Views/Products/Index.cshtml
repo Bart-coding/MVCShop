@@ -59,7 +59,14 @@
         @Html.DisplayFor(modelItem => item.Price)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.VAT)
+        @if (item.VAT == -1)
+        {
+            @Html.DisplayName("zwolnienie");
+        }
+        else
+        {
+            @Html.DisplayFor(modelItem => item.VAT)
+        }
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Quantity)

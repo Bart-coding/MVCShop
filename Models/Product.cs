@@ -25,7 +25,7 @@ namespace MVCShop.Models
         public int Discount { get; set; }
 
         [Required(ErrorMessage = "Field {0} can't be empty")]
-        [Range(0, 100, ErrorMessage = "{0} must be between {1} and {2}")]
+        [Range(-1, 100, ErrorMessage = "{0} must be between {1} and {2}")]
         public int VAT { get; set; }
 
         public bool Deleted { get; set; }
