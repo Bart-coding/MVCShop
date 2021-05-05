@@ -1,5 +1,7 @@
 ﻿using MVCShop.Models;
+using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -10,14 +12,18 @@ namespace MVCShop.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Products
         public async Task<ActionResult> Index()
         {
-            var products = db.Products.Include(p => p.Category);
+            var products = db.Products.Where(p => p.Deleted == false).Include(p => p.Category);
             return View(await products.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        public async Task<ActionResult> RecycleBin()
+        {
+            var products = db.Products.Where(p => p.Deleted == true).Include(p => p.Category);
+            return View(await products.ToListAsync());
+        }
+
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,20 +38,29 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        // GET: Products/Create
         public ActionResult Create()
         {
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
+            //AddProductViewModel model = new AddProductViewModel();
             return View();
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ProductID,Name,Price,Descritpion,Picture,Date,Discount,VAT,Deleted,Quantity,SalesCounter,CategoryID")] Product product)
+        public async Task<ActionResult> Create(Product model)
         {
+            Product product = new Product
+            {
+                Name = model.Name,
+                Price = model.Price,
+                Descritpion = model.Descritpion,
+                Picture = model.Picture,
+                Date = DateTime.Now,
+                VAT = model.VAT,
+                Quantity = model.Quantity,
+                Visible = model.Visible,
+                CategoryID = model.CategoryID
+            };
             if (ModelState.IsValid)
             {
                 db.Products.Add(product);
@@ -57,7 +72,6 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        // GET: Products/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,12 +87,9 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ProductID,Name,Price,Descritpion,Picture,Date,Discount,VAT,Deleted,Quantity,SalesCounter,CategoryID")] Product product)
+        public async Task<ActionResult> Edit([Bind(Include = "ProductID,Name,Price,Descritpion,Picture,Date,Discount,VAT,Deleted,Quantity,SalesCounter,Visible,CategoryID")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +101,6 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        // GET: Products/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -105,7 +115,6 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
@@ -113,7 +122,57 @@ namespace MVCShop.Controllers
             Product product = await db.Products.FindAsync(id);
             db.Products.Remove(product);
             await db.SaveChangesAsync();
+            return RedirectToAction("RecycleBin");
+        }
+
+        public async Task<ActionResult> Remove(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = await db.Products.FindAsync(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+
+        [HttpPost, ActionName("Remove")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveConfirmed(int id)
+        {
+            Product product = await db.Products.FindAsync(id);
+            product.Deleted = true;
+            db.Entry(product).State = EntityState.Modified;
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> Restore(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = await db.Products.FindAsync(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RestoreConfirmed(int id)
+        {
+            Product product = await db.Products.FindAsync(id);
+            product.Deleted = false;
+            db.Entry(product).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            return RedirectToAction("RecycleBin");
         }
 
         protected override void Dispose(bool disposing)

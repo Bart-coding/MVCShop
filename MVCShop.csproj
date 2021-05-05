@@ -186,6 +186,10 @@
     <Compile Include="Migrations\202105050920389_fix_database.Designer.cs">
       <DependentUpon>202105050920389_fix_database.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202105051343147_add_annotations_to_product.cs" />
+    <Compile Include="Migrations\202105051343147_add_annotations_to_product.Designer.cs">
+      <DependentUpon>202105051343147_add_annotations_to_product.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -280,10 +284,13 @@
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Products\Create.cshtml" />
-    <Content Include="Views\Products\Delete.cshtml" />
+    <Content Include="Views\Products\Remove.cshtml" />
     <Content Include="Views\Products\Details.cshtml" />
     <Content Include="Views\Products\Edit.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Products\RecycleBin.cshtml" />
+    <Content Include="Views\Products\Delete.cshtml" />
+    <Content Include="Views\Products\Restore.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -305,7 +312,11 @@
     <EmbeddedResource Include="Migrations\202105050920389_fix_database.resx">
       <DependentUpon>202105050920389_fix_database.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105051343147_add_annotations_to_product.resx">
+      <DependentUpon>202105051343147_add_annotations_to_product.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
