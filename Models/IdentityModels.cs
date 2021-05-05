@@ -21,6 +21,7 @@ namespace MVCShop.Models
         public string Surname { get; set; }
         public bool Netto { get; set; }
         public bool Newsletter { get; set; }
+        public int ProductsPerPage { get; set; }
         public int PersonalDiscount { get; set; }
         public virtual Address Address { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

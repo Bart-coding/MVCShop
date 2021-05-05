@@ -16,6 +16,7 @@ namespace MVCShop.Models
         public bool Deleted { get; set; }
         public int Quantity { get; set; }
         public int SalesCounter { get; set; }
+        public bool Visible { get; set; }
         public int CategoryID { get; set; }
         public virtual Category Category { get; set; }
         public virtual ICollection<File> Files { get; set; }

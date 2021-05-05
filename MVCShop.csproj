@@ -182,6 +182,10 @@
     <Compile Include="Migrations\202105040803424_init.Designer.cs">
       <DependentUpon>202105040803424_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202105050920389_fix_database.cs" />
+    <Compile Include="Migrations\202105050920389_fix_database.Designer.cs">
+      <DependentUpon>202105050920389_fix_database.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -297,6 +301,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202105040803424_init.resx">
       <DependentUpon>202105040803424_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202105050920389_fix_database.resx">
+      <DependentUpon>202105050920389_fix_database.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
