@@ -4,15 +4,14 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>USUWANIE</h2>
 
-<h3>Are you sure you want to delete this product?</h3>
+<h3>Jesteś pewien, że chesz usunąć ten produkt?</h3>
 <div>
-    <h4>Product</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            Category
+            @Html.DisplayNameFor(model => model.CategoryID)
         </dt>
 
         <dd>
@@ -72,7 +71,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.VAT)
+            @if (Model.VAT == -1)
+            {
+                @Html.DisplayName("zwolnienie");
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.VAT)
+            }
         </dd>
 
         <dt>
@@ -98,8 +104,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "RecycleBin")
+            @Html.ActionLink("Powrót do listy", "RecycleBin") |
+            <input type="submit" value="Usuń" class="btn btn-danger" />
         </div>
     }
 </div>

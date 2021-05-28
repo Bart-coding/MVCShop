@@ -4,12 +4,12 @@
     ViewBag.Title = "RecycleBin";
 }
 
-<h2>RecycleBin</h2>
+<h2>KOSZ NA PRODUKTY</h2>
 
 <table class="table">
     <tr>
         <th>
-            Category
+            @Html.DisplayNameFor(model => model.CategoryID)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -88,8 +88,8 @@
                 @Html.DisplayFor(modelItem => item.Visible)
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.ProductID }) |
-                @Html.ActionLink("Restore", "Restore", new { id = item.ProductID })
+                @Html.ActionLink("Usuń", "Delete", new { id = item.ProductID }) |
+                @Html.ActionLink("Przywróć", "Restore", new { id = item.ProductID })
             </td>
         </tr>
     }

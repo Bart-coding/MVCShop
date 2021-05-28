@@ -55,10 +55,10 @@ namespace MVCShop.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Hasło")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Zapamiętaj mnie?")]
         public bool RememberMe { get; set; }
     }
 
@@ -66,12 +66,12 @@ namespace MVCShop.Models
     {
         [Required]
         [StringLength(30)]
-        [Display(Name = "First Name")]
+        [Display(Name = "Imię")]
         public string FirstName { get; set; }
 
         [Required]
         [StringLength(30)]
-        [Display(Name = "Surname")]
+        [Display(Name = "Nazwisko")]
         public string Surname { get; set; }
 
         [Required]
@@ -85,40 +85,41 @@ namespace MVCShop.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} musi mieć co najmniej {2} znaków.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Hasło")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Potwierdź hasło")]
+        [Compare("Password", ErrorMessage = "Hasła się nie zgadzają")]
         public string ConfirmPassword { get; set; }
 
-        [Display(Name = "Display Netto Prices?")]
+        [Display(Name = "Wyświetlać ceny netto?")]
         public bool Netto { get; set; }
 
-        [Display(Name = "Send a newsletter?")]
+        [Display(Name = "Wysyłać newsletter?")]
         public bool Newsletter { get; set; }
 
 
         [Required]
         [DataType(DataType.PostalCode)]
-        [RegularExpression(@"([0-9]{2}-[0-9]{3})", ErrorMessage = "Incorrect Format")]
-        [StringLength(6, MinimumLength = 6, ErrorMessage = "The {0} must be at least {2} characters long.")]
-        [Display(Name = "PostalCode")]
+        [RegularExpression(@"([0-9]{2}-[0-9]{3})", ErrorMessage = "Niepoprawny format")]
+        [StringLength(6, MinimumLength = 6, ErrorMessage = "{0} musi mieć co najmniej {2} znaków")]
+        [Display(Name = "Kod pocztowy")]
         public string PostalCode { get; set; }
 
         [Required]
         [StringLength(30)]
-        [RegularExpression(@"(^[A-Z].*)", ErrorMessage = "The {0} must start with capital letter")]
-        [Display(Name = "City")]
+        [RegularExpression(@"(^[A-Z].*)", ErrorMessage = "{0} musi zaczynać się wielką literą")]
+        [Display(Name = "Miasto")]
         public string City { get; set; }
 
         [Required]
         [StringLength(30)]
-        [RegularExpression(@"((^[A-Z].*\s[0-9]*$)|(^[A-Z].*\s([0-9]*\/[0-9]*)$))", ErrorMessage = "The {0} must start with capital letter and have the apartament number")]
-        [Display(Name = "StreetAddress")]
+        [RegularExpression(@"((^[A-Z]+[A-z]+\s[0-9]+[A-Z]{0,1}$)|(^[A-Z]+[A-z]+\s([0-9]+[A-Z]{0,1}\/+[0-9]+)$))", 
+                            ErrorMessage = "{0} musi zaczynać się wielką literą i mieć numer lokalu/mieszkania")]
+        [Display(Name = "Ulica")]
         public string StreetAddress { get; set; }
     }
 

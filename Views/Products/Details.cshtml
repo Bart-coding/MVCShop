@@ -4,14 +4,13 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>SZCZEGÓŁY PRODUKTU</h2>
 
 <div>
-    <h4>Product</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            Category
+            @Html.DisplayNameFor(model => model.CategoryID)
         </dt>
 
         <dd>
@@ -71,7 +70,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.VAT)
+            @if (Model.VAT == -1)
+            {
+                @Html.DisplayName("zwolnienie");
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.VAT)
+            }
         </dd>
 
         <dt>
@@ -93,6 +99,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edytuj", "Edit", new { id = Model.ProductID }) |
+    @Html.ActionLink("Powrót do listy", "Index")
 </p>

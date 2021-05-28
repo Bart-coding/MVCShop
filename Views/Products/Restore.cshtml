@@ -4,15 +4,14 @@
     ViewBag.Title = "Restore";
 }
 
-<h2>Restore</h2>
+<h2>PRZYWRACANIE PRODUKTU</h2>
 
-<h3>Are you sure you want to restore this product?</h3>
+<h3>Jesteś pewien, że chesz przywrócić ten produkt?</h3>
 <div>
-    <h4>Product</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            Category
+            @Html.DisplayNameFor(model => model.CategoryID)
         </dt>
 
         <dd>
@@ -72,7 +71,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.VAT)
+            @if (Model.VAT == -1)
+            {
+                @Html.DisplayName("zwolnienie");
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.VAT)
+            }
         </dd>
 
         <dt>
@@ -98,8 +104,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Restore" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "RecycleBin")
+            @Html.ActionLink("Powrót do Listy", "RecycleBin") |
+            <input type="submit" value="Przywróć" class="btn btn-success" />
         </div>
     }
 </div>

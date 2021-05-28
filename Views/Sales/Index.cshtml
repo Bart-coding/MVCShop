@@ -4,12 +4,12 @@
     ViewBag.Title = "Sale";
 }
 
-<h2>Sale</h2>
+<h2>Wyprzedaż</h2>
 
 <table class="table">
     <tr>
         <th>
-            Category
+            @Html.DisplayNameFor(model => model.CategoryID)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -51,7 +51,7 @@
                 @Html.DisplayFor(modelItem => item.Discount)
             </td>
             <td>
-                @Html.ActionLink("Buy", "Buy", new { id = item.ProductID })
+                @Html.ActionLink("Kup", "Buy", new { id = item.ProductID })
             </td>
         </tr>
     }

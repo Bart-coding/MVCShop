@@ -4,15 +4,14 @@
     ViewBag.Title = "Remove";
 }
 
-<h2>Remove</h2>
+<h2>PRZENOSZENIE DO KOSZA</h2>
 
-<h3>Are you sure you want to move this product to recycle bin?</h3>
+<h3>Jesteś pewien, że chcesz przenieść ten produkt do kosza?</h3>
 <div>
-    <h4>Product</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            Category
+            @Html.DisplayNameFor(model => model.CategoryID)
         </dt>
 
         <dd>
@@ -72,7 +71,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.VAT)
+            @if (Model.VAT == -1)
+            {
+                @Html.DisplayName("zwolnienie");
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.VAT)
+            }
         </dd>
 
         <dt>
@@ -98,8 +104,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Remove" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Powrót do listy", "Index") |
+            <input type="submit" value="Przenieś" class="btn btn-warning" />
         </div>
     }
 </div>

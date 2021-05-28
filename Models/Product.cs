@@ -8,37 +8,47 @@ namespace MVCShop.Models
     {
         public int ProductID { get; set; }
 
-        [Required(ErrorMessage = "Field {0} can't be empty")]
-        [StringLength(30, ErrorMessage = "{0} can be max {1} characters long")]
+        [Required]
+        [StringLength(30, ErrorMessage = "{0} może mieć maksymalnie {1} znaków")]
+        [Display(Name = "Nazwa")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Field {0} can't be empty")]
+        [Required]
+        [Display(Name = "Cena")]
         public decimal Price { get; set; }
 
+        [Display(Name = "Opis")]
         public string Descritpion { get; set; }
 
+        [Display(Name = "Zdjęcie")]
         public byte[] Picture { get; set; }
 
+        [Display(Name = "Data dodania")]
         public DateTime Date { get; set; }
 
-        [Range(0, 100,ErrorMessage = "{0} must be between {1} and {2}")]
+        [Range(0, 100,ErrorMessage = "{0} musi zawierać się między {1} a {2}")]
+        [Display(Name = "Zniżka")]
         public int Discount { get; set; }
 
-        [Required(ErrorMessage = "Field {0} can't be empty")]
-        [Range(-1, 100, ErrorMessage = "{0} must be between {1} and {2}")]
+        [Required]
+        [Range(-1, 100, ErrorMessage = "{0} musi zawierać się między {1} a {2}")]
         public int VAT { get; set; }
 
+        [Display(Name = "Usunięty")]
         public bool Deleted { get; set; }
 
-        [Required(ErrorMessage = "Field {0} can't be empty")]
+        [Required]
+        [Display(Name = "Ilość")]
         public int Quantity { get; set; }
 
+        [Display(Name = "Sprzedano")]
         public int SalesCounter { get; set; }
 
+        [Display(Name = "Widoczny")]
         public bool Visible { get; set; }
 
-        [Required(ErrorMessage = "Field {0} can't be empty")]
-        [Display(Name = "Category")]
+        [Required]
+        [Display(Name = "Kategoria")]
         public int CategoryID { get; set; }
 
         public virtual Category Category { get; set; }
