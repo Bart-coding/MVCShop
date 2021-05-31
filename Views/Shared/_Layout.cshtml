@@ -26,8 +26,9 @@
                     <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Produkty", "Index", "Products")</li>
                     <li>@Html.ActionLink("Kosz", "RecycleBin", "Products")</li>
-                    <li>@Html.ActionLink("Nowości", "Index", "News")</li>
-                    <li>@Html.ActionLink("Promocje", "Index", "Sales")</li>
+                    <li>@Html.ActionLink("Nowości", "News", "Products")</li>
+                    <li>@Html.ActionLink("Promocje", "Sales", "Products")</li>
+                    <li>@Html.ActionLink("Najczęściej kupowane", "MostBought", "Products")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

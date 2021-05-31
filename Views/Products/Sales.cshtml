@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<MVCShop.Models.Product>
 
 @{
-    ViewBag.Title = "News";
+    ViewBag.Title = "Sales";
 }
 
-<h2>NOWOŚCI</h2>
+<h2>Wyprzedaż</h2>
 
 <table class="table">
     <tr>
@@ -51,7 +51,7 @@
                 @Html.DisplayFor(modelItem => item.Discount)
             </td>
             <td>
-                @Html.ActionLink("Buy", "Buy", new { id = item.ProductID })
+                @Html.ActionLink("Kup", "Buy", new { id = item.ProductID })
             </td>
         </tr>
     }

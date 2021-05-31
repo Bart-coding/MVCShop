@@ -175,6 +175,30 @@ namespace MVCShop.Controllers
             return RedirectToAction("RecycleBin");
         }
 
+        public async Task<ActionResult> News()
+        {
+            var dateInThePast = DateTime.Now.AddDays(-7);
+            var products = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Date > dateInThePast).Include(p => p.Category);
+            return View(await products.ToListAsync());
+        }
+
+        public async Task<ActionResult> Sales()
+        {
+            var products = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Discount != 0)
+                                        .Include(p => p.Category);
+            return View(await products.ToListAsync());
+        }
+
+        public async Task<ActionResult> MostBought()
+        {
+            var products = db.Products.Where(p => p.Deleted == false && p.Visible == true)
+                                        .OrderByDescending(p=>p.SalesCounter)
+                                        .Take(10)
+                                        .Include(p => p.Category);
+
+            return View(await products.ToListAsync());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
