@@ -12,6 +12,38 @@ namespace MVCShop.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+        [Display(Name="Imię")]
+        public string Name { get; set; }
+
+        [Display(Name = "Nazwisko")]
+        public string Surname { get; set; }
+
+        [Display(Name = "Wyświetlać ceny netto?")]
+        public bool Netto { get; set; }
+
+        [Display(Name = "Wysyłać Newsletter?")]
+        public bool Newsletter { get; set; }
+
+        [Display(Name = "Liczba produktów na stronie")]
+        public int ProductsPerPage { get; set; }
+
+        [Display(Name = "Zniżka nadana przez sklep")]
+        public int PersonalDiscount { get; set; }
+
+        public Address Address { get; set; }
+    }
+
+    public class EditPreferencesViewModel
+    {
+        [Display(Name = "Wyświetlać ceny netto?")]
+        public bool Netto { get; set; }
+
+        [Display(Name = "Wysyłać Newsletter?")]
+        public bool Newsletter { get; set; }
+
+        [Display(Name = "Liczba produktów na stronie")]
+        public int ProductsPerPage { get; set; }
     }
 
     public class ManageLoginsViewModel

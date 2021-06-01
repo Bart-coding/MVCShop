@@ -64,15 +64,50 @@ namespace MVCShop.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            IdentityManager im = new IdentityManager();
+            var user = im.GetUserByID(userId);
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+
+                Name = user.Name,
+                Surname = user.Surname,
+                Netto = user.Netto,
+                Newsletter = user.Newsletter,
+                ProductsPerPage = user.ProductsPerPage,
+                PersonalDiscount = user.PersonalDiscount,
+                Address = user.Address
             };
             return View(model);
+        }
+
+        public ActionResult EditPreferences()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            EditPreferencesViewModel data =  new EditPreferencesViewModel
+            {
+                Netto = user.Netto,
+                Newsletter = user.Newsletter,
+                ProductsPerPage = user.ProductsPerPage
+            };
+
+            return View(data);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPreferences(EditPreferencesViewModel model)
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            user.Netto = model.Netto;
+            user.Newsletter = model.Newsletter;
+            user.ProductsPerPage = model.ProductsPerPage;
+            UserManager.Update(user);
+            return RedirectToAction("Index");
         }
 
         //

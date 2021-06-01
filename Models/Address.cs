@@ -8,9 +8,16 @@ namespace MVCShop.Models
         [Key]
         [ForeignKey("User")]
         public string UserID { get; set; }
+
+        [Display(Name = "Kod pocztowy")]
         public string PostalCode { get; set; }
+
+        [Display(Name = "Miejscowość")]
         public string City { get; set; }
+
+        [Display(Name = "Ulica")]
         public string StreetAddress { get; set; }
+
         public virtual ApplicationUser User { get; set; }
     }
 }

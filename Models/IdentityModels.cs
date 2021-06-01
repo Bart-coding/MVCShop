@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MVCShop.Models
 {
@@ -72,7 +73,7 @@ namespace MVCShop.Models
 			return user;
 		}
 
-		public ApplicationUser GetUserByName(string email)
+		public ApplicationUser GetUserByEmail(string email)
 		{
 			UserManager<ApplicationUser> um = this.LocalUserManager;
 			ApplicationUser user = um.FindByEmail(email);
@@ -117,7 +118,7 @@ namespace MVCShop.Models
 		public bool AddCurrentUserToRole(string roleName)
 		{
 			var um = LocalUserManager;
-			string userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
+			string userID = HttpContext.Current.User.Identity.GetUserId();
 			var idResult = um.AddToRole(userID, roleName);
 
 			return idResult.Succeeded;

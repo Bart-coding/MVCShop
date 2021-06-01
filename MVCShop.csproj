@@ -296,6 +296,7 @@
     <Content Include="Views\Products\News.cshtml" />
     <Content Include="Views\Products\Sales.cshtml" />
     <Content Include="Views\Roles\AddCurrentUserToUserRole.cshtml" />
+    <Content Include="Views\Manage\EditPreferences.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
