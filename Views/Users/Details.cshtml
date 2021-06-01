@@ -1,0 +1,74 @@
+﻿@model MVCShop.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>SZCZEGÓŁY KLIENTA</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Netto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Netto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Newsletter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Newsletter)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductsPerPage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductsPerPage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            <div class="col">@Html.DisplayFor(model => model.Address.PostalCode)</div>
+            <div class="col">@Html.DisplayFor(model => model.Address.City)</div>
+            <div class="col">@Html.DisplayFor(model => model.Address.StreetAddress)</div>
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edytuj", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Powrót do listy", "Index")
+</p>

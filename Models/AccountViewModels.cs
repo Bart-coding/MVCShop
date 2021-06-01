@@ -151,4 +151,45 @@ namespace MVCShop.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class EditUserViewModel
+    {
+        public string Id { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        [Display(Name = "Imię")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        [Display(Name = "Nazwisko")]
+        public string Surname { get; set; }
+
+        [Display(Name = "Wyświetlać ceny netto?")]
+        public bool Netto { get; set; }
+
+        [Display(Name = "Wysyłać newsletter?")]
+        public bool Newsletter { get; set; }
+
+        [Required]
+        [DataType(DataType.PostalCode)]
+        [RegularExpression(@"([0-9]{2}-[0-9]{3})", ErrorMessage = "Niepoprawny format")]
+        [StringLength(6, MinimumLength = 6, ErrorMessage = "{0} musi mieć co najmniej {2} znaków")]
+        [Display(Name = "Kod pocztowy")]
+        public string PostalCode { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        [RegularExpression(@"(^[A-Z].*)", ErrorMessage = "{0} musi zaczynać się wielką literą")]
+        [Display(Name = "Miasto")]
+        public string City { get; set; }
+
+        [Required]
+        [StringLength(30)]
+        [RegularExpression(@"((^[A-Z]+[A-z]+\s[0-9]+[A-Z]{0,1}$)|(^[A-Z]+[A-z]+\s([0-9]+[A-Z]{0,1}\/+[0-9]+)$))",
+                            ErrorMessage = "{0} musi zaczynać się wielką literą i mieć numer lokalu/mieszkania")]
+        [Display(Name = "Ulica")]
+        public string StreetAddress { get; set; }
+    }
 }

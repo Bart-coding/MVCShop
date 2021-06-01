@@ -24,14 +24,15 @@
                     <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
                     <li>@Html.ActionLink("O nas", "About", "Home")</li>
                     <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Nowości", "News", "Products")</li>
+                    <li>@Html.ActionLink("Promocje", "Sales", "Products")</li>
+                    <li>@Html.ActionLink("Najczęściej kupowane", "MostBought", "Products")</li>
                     @if (User.IsInRole("admin"))
                     {
                         <li>@Html.ActionLink("Produkty", "Index", "Products")</li>
                         <li>@Html.ActionLink("Kosz", "RecycleBin", "Products")</li>
+                        <li>@Html.ActionLink("Klienci", "Index", "Users")</li>
                     }
-                    <li>@Html.ActionLink("Nowości", "News", "Products")</li>
-                    <li>@Html.ActionLink("Promocje", "Sales", "Products")</li>
-                    <li>@Html.ActionLink("Najczęściej kupowane", "MostBought", "Products")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

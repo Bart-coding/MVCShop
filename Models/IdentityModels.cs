@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -18,13 +19,22 @@ namespace MVCShop.Models
             // Add custom user claims here
             return userIdentity;
         }
+		[Display(Name="Imię")]
         public string Name { get; set; }
-        public string Surname { get; set; }
+
+		[Display(Name = "Nazwisko")]
+		public string Surname { get; set; }
         public bool Netto { get; set; }
         public bool Newsletter { get; set; }
-        public int ProductsPerPage { get; set; }
-        public int PersonalDiscount { get; set; }
-        public virtual Address Address { get; set; }
+
+		[Display(Name = "Produkty na stronę")]
+		public int ProductsPerPage { get; set; }
+
+		[Display(Name = "Indywidualna zniżka")]
+		public int PersonalDiscount { get; set; }
+
+		[Display(Name = "Adres")]
+		public virtual Address Address { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }
 
