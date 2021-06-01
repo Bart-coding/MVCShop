@@ -45,4 +45,96 @@ namespace MVCShop.Models
         public DbSet<Address> Addresses { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
     }
+
+	public class IdentityManager
+	{
+		public RoleManager<IdentityRole> LocalRoleManager
+		{
+			get
+			{
+				return new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+			}
+		}
+
+		public UserManager<ApplicationUser> LocalUserManager
+		{
+			get
+			{
+				return new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+			}
+		}
+
+		public ApplicationUser GetUserByID(string userID)
+		{
+			UserManager<ApplicationUser> um = this.LocalUserManager;
+			ApplicationUser user = um.FindById(userID);
+
+			return user;
+		}
+
+		public ApplicationUser GetUserByName(string email)
+		{
+			UserManager<ApplicationUser> um = this.LocalUserManager;
+			ApplicationUser user = um.FindByEmail(email);
+
+			return user;
+		}
+
+		private bool RoleExists(string name)
+		{
+			var rm = LocalRoleManager;
+			return rm.RoleExists(name);
+		}
+
+		public bool CreateRole(string name)
+		{
+			var rm = LocalRoleManager;
+			if (!RoleExists(name))
+            {
+				var idResult = rm.Create(new IdentityRole(name));
+				return idResult.Succeeded;
+			}
+			return false;
+		}
+
+		public bool AddUserToRoleById(string userId, string roleName)
+		{
+			var um = LocalUserManager;
+			var idResult = um.AddToRole(userId, roleName);
+
+			return idResult.Succeeded;
+		}
+
+		public bool AddUserToRoleByUsername(string username, string roleName)
+		{
+			var um = LocalUserManager;
+			string userID = um.FindByName(username).Id;
+			var idResult = um.AddToRole(userID, roleName);
+
+			return idResult.Succeeded;
+		}
+
+		public bool AddCurrentUserToRole(string roleName)
+		{
+			var um = LocalUserManager;
+			string userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
+			var idResult = um.AddToRole(userID, roleName);
+
+			return idResult.Succeeded;
+		}
+
+		public void ClearUserRoles(string userId)
+		{
+			var um = LocalUserManager;
+			var user = um.FindById(userId);
+			var currentRoles = new List<IdentityUserRole>();
+
+			currentRoles.AddRange(user.Roles);
+
+			foreach (var role in currentRoles)
+			{
+				um.RemoveFromRole(userId, role.RoleId);
+			}
+		}
+	}
 }

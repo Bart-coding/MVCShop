@@ -85,7 +85,7 @@ namespace MVCShop.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "{0} musi mieć co najmniej {2} znaków.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} musi mieć co najmniej {2} znaków.", MinimumLength = 5)]
         [DataType(DataType.Password)]
         [Display(Name = "Hasło")]
         public string Password { get; set; }

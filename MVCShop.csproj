@@ -175,6 +175,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -294,6 +295,7 @@
     <Content Include="Views\Products\MostBought.cshtml" />
     <Content Include="Views\Products\News.cshtml" />
     <Content Include="Views\Products\Sales.cshtml" />
+    <Content Include="Views\Roles\AddCurrentUserToUserRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
