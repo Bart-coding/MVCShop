@@ -12,6 +12,7 @@ namespace MVCShop.Controllers
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private IdentityManager im = new IdentityManager();
 
         public async Task<ActionResult> Index()
         {
@@ -184,6 +185,16 @@ namespace MVCShop.Controllers
                                         .OrderByDescending(p => p.Date)
                                         .Take(10)
                                         .Include(p => p.Category);
+
+            // wyświetlanie cen netto, jeśli użytkownik zalogowany i ma tak ustawione w profilu
+            if (User.Identity.IsAuthenticated && im.GetCurentUser().Netto)
+            {
+                await products.ForEachAsync(p => {
+                    if(p.VAT != -1)
+                        p.Price -= p.Price*(p.VAT*(decimal)0.01);
+                });
+            }
+            
             return View(await products.ToListAsync());
         }
 
@@ -192,6 +203,16 @@ namespace MVCShop.Controllers
         {
             var products = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Discount != 0)
                                         .Include(p => p.Category);
+
+            // wyświetlanie cen netto, jeśli użytkownik zalogowany i ma tak ustawione w profilu
+            if (User.Identity.IsAuthenticated && im.GetCurentUser().Netto)
+            {
+                await products.ForEachAsync(p => {
+                    if (p.VAT != -1)
+                        p.Price -= p.Price * (p.VAT * (decimal)0.01);
+                });
+            }
+
             return View(await products.ToListAsync());
         }
 
@@ -202,6 +223,15 @@ namespace MVCShop.Controllers
                                         .OrderByDescending(p=>p.SalesCounter)
                                         .Take(10)
                                         .Include(p => p.Category);
+
+            // wyświetlanie cen netto, jeśli użytkownik zalogowany i ma tak ustawione w profilu
+            if (User.Identity.IsAuthenticated && im.GetCurentUser().Netto)
+            {
+                await products.ForEachAsync(p => {
+                    if (p.VAT != -1)
+                        p.Price -= p.Price * (p.VAT * (decimal)0.01);
+                });
+            }
 
             return View(await products.ToListAsync());
         }

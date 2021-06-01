@@ -81,6 +81,13 @@ namespace MVCShop.Models
 			return user;
 		}
 
+		public ApplicationUser GetCurentUser()
+		{
+			string userID = HttpContext.Current.User.Identity.GetUserId();
+
+			return GetUserByID(userID);
+		}
+
 		private bool RoleExists(string name)
 		{
 			var rm = LocalRoleManager;
