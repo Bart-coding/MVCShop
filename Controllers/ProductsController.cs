@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace MVCShop.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -175,13 +176,18 @@ namespace MVCShop.Controllers
             return RedirectToAction("RecycleBin");
         }
 
+        [AllowAnonymous]
         public async Task<ActionResult> News()
         {
             var dateInThePast = DateTime.Now.AddDays(-7);
-            var products = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Date > dateInThePast).Include(p => p.Category);
+            var products = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Date > dateInThePast)
+                                        .OrderByDescending(p => p.Date)
+                                        .Take(10)
+                                        .Include(p => p.Category);
             return View(await products.ToListAsync());
         }
 
+        [AllowAnonymous]
         public async Task<ActionResult> Sales()
         {
             var products = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Discount != 0)
@@ -189,6 +195,7 @@ namespace MVCShop.Controllers
             return View(await products.ToListAsync());
         }
 
+        [AllowAnonymous]
         public async Task<ActionResult> MostBought()
         {
             var products = db.Products.Where(p => p.Deleted == false && p.Visible == true)
