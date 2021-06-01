@@ -293,7 +293,7 @@
     <Content Include="Views\Products\RecycleBin.cshtml" />
     <Content Include="Views\Products\Delete.cshtml" />
     <Content Include="Views\Products\Restore.cshtml" />
-    <Content Include="Views\Products\MostBought.cshtml" />
+    <Content Include="Views\Products\BestSellers.cshtml" />
     <Content Include="Views\Products\News.cshtml" />
     <Content Include="Views\Products\Sales.cshtml" />
     <Content Include="Views\Roles\AddCurrentUserToUserRole.cshtml" />

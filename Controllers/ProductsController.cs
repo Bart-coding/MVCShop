@@ -217,7 +217,7 @@ namespace MVCShop.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> MostBought()
+        public async Task<ActionResult> BestSellers()
         {
             var products = db.Products.Where(p => p.Deleted == false && p.Visible == true)
                                         .OrderByDescending(p=>p.SalesCounter)
