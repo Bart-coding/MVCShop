@@ -156,6 +156,7 @@ namespace MVCShop.Controllers
                     Surname = model.Surname,
                     UserName = model.Email,
                     Email = model.Email,
+                    ProductsPerPage = 10,
                     Newsletter = model.Newsletter,
                     Netto = model.Netto
                 };

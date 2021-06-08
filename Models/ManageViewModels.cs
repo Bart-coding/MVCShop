@@ -42,6 +42,8 @@ namespace MVCShop.Models
         [Display(Name = "Wysyłać Newsletter?")]
         public bool Newsletter { get; set; }
 
+        [Required]
+        [Range(1, 30, ErrorMessage = "Liczba produktów na stronę musi zawierać się w przedziale {1}-{2}")]
         [Display(Name = "Liczba produktów na stronie")]
         public int ProductsPerPage { get; set; }
     }
@@ -79,7 +81,7 @@ namespace MVCShop.Models
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "{0} musi mieć co najmniej {2} znaków", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} musi mieć co najmniej {2} znaków", MinimumLength = 5)]
         [DataType(DataType.Password)]
         [Display(Name = "Nowe hasło")]
         public string NewPassword { get; set; }

@@ -55,7 +55,7 @@ namespace MVCShop.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Twoje hasło zostało zmienione."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "An error has occurred."
@@ -275,7 +275,7 @@ namespace MVCShop.Controllers
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
-            AddErrors(result);
+            AddPasswordErrors(result);
             return View(model);
         }
 
@@ -388,6 +388,20 @@ namespace MVCShop.Controllers
             }
         }
 
+        private void AddPasswordErrors(IdentityResult result)
+        {
+            if(result.Errors.Count() == 1 && result.Errors.Contains("Incorrect password."))
+            {
+                ModelState.AddModelError("OldPassword", "Stare hasło się nie zgadza");    
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+            }
+        }
         private bool HasPassword()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
