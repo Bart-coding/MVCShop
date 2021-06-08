@@ -156,15 +156,24 @@ namespace MVCShop.Models
     {
         public string Id { get; set; }
 
-        [Required]
-        [StringLength(30)]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
         [Display(Name = "Imię")]
         public string FirstName { get; set; }
 
-        [Required]
-        [StringLength(30)]
         [Display(Name = "Nazwisko")]
         public string Surname { get; set; }
+
+        [Required]
+        [Range(1, 30, ErrorMessage = "Liczba produktów na stronę musi zawierać się w przedziale {1}-{2}")]
+        [Display(Name = "Produkty na stronę")]
+        public int ProductsPerPage { get; set; }
+
+        [Required]
+        [Range(0, 100, ErrorMessage = "Zniżka musi zawierać się w przedziale {1}-{2}")]
+        [Display(Name = "Indywidualna zniżka")]
+        public int PersonalDiscount { get; set; }
 
         [Display(Name = "Wyświetlać ceny netto?")]
         public bool Netto { get; set; }

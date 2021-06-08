@@ -73,8 +73,11 @@ namespace MVCShop.Controllers
             var userToEdit = new EditUserViewModel
             {
                 Id = user.Id,
+                Email = user.Email,
                 FirstName = user.Name,
                 Surname = user.Surname,
+                ProductsPerPage = user.ProductsPerPage,
+                PersonalDiscount = user.PersonalDiscount,
                 Netto = user.Netto,
                 Newsletter = user.Newsletter,
                 PostalCode = user.Address.PostalCode,
@@ -92,8 +95,8 @@ namespace MVCShop.Controllers
             {
                 var user = UserManager.FindByIdAsync(model.Id).Result;
                 
-                user.Name = model.FirstName;
-                user.Surname = model.Surname;
+                user.ProductsPerPage = model.ProductsPerPage;
+                user.PersonalDiscount = model.PersonalDiscount;
                 user.Newsletter = model.Newsletter;
                 user.Netto = model.Netto;
 
@@ -101,13 +104,14 @@ namespace MVCShop.Controllers
 
                 if (result.Succeeded)
                 {
-                    var address = await db.Addresses.FirstOrDefaultAsync(x => x.UserID == model.Id);
+                    // jeśli chcielibyśmy móc edytować również adres
+                    //var address = await db.Addresses.FirstOrDefaultAsync(x => x.UserID == model.Id);
 
-                    address.PostalCode = model.PostalCode;
-                    address.City = model.City;
-                    address.StreetAddress = model.StreetAddress;
+                    //address.PostalCode = model.PostalCode;
+                    //address.City = model.City;
+                    //address.StreetAddress = model.StreetAddress;
 
-                    db.Entry(address).State = EntityState.Modified;
+                    //db.Entry(address).State = EntityState.Modified;
 
                     await db.SaveChangesAsync();
 
