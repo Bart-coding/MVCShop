@@ -14,16 +14,74 @@ namespace MVCShop.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private IdentityManager im = new IdentityManager();
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page)
         {
-            var products = db.Products.Where(p => p.Deleted == false).Include(p => p.Category);
-            return View(await products.ToListAsync());
+            var total = db.Products.Where(p => p.Deleted == false).Count();
+            var elemsPerSize = 10;
+            // wyświetlanie liczby produktów ustawionych w profilu, jeśli użytkownik zalogowany
+            if (User.Identity.IsAuthenticated)
+            {
+                elemsPerSize = im.GetCurentUser().ProductsPerPage;
+            }
+            var skip = 0;
+            if(page != null)
+            {
+                skip = (int)(elemsPerSize * (page - 1));
+            }
+            var canPage = skip < total;
+
+            if (!canPage)
+            {
+                return View();
+            }
+            else
+            {
+                var products = db.Products.Where(p => p.Deleted == false)
+                                        .OrderBy(x => x.Category.Name.ToLower())
+                                        .Skip(skip)
+                                        .Take(elemsPerSize)
+                                        .Include(p => p.Category);
+
+                ViewBag.CurrentPage = page ?? 1;
+                ViewBag.NumberOfPages = Math.Ceiling(total / (double)elemsPerSize);
+
+                return View(await products.ToListAsync());
+            }
         }
 
-        public async Task<ActionResult> RecycleBin()
+        public async Task<ActionResult> RecycleBin(int? page)
         {
-            var products = db.Products.Where(p => p.Deleted == true).Include(p => p.Category);
-            return View(await products.ToListAsync());
+            var total = db.Products.Where(p => p.Deleted == true).Count();
+            var elemsPerSize = 10;
+            // wyświetlanie liczby produktów ustawionych w profilu, jeśli użytkownik zalogowany
+            if (User.Identity.IsAuthenticated)
+            {
+                elemsPerSize = im.GetCurentUser().ProductsPerPage;
+            }
+            var skip = 0;
+            if (page != null)
+            {
+                skip = (int)(elemsPerSize * (page - 1));
+            }
+            var canPage = skip < total;
+
+            if (!canPage)
+            {
+                return View();
+            }
+            else
+            {
+                var products = db.Products.Where(p => p.Deleted == true)
+                                        .OrderBy(x => x.Category.Name.ToLower())
+                                        .Skip(skip)
+                                        .Take(elemsPerSize)
+                                        .Include(p => p.Category);
+
+                ViewBag.CurrentPage = page ?? 1;
+                ViewBag.NumberOfPages = Math.Ceiling(total / (double)elemsPerSize);
+
+                return View(await products.ToListAsync());
+            }
         }
 
         public async Task<ActionResult> Details(int? id)
@@ -178,62 +236,147 @@ namespace MVCShop.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> News()
+        public async Task<ActionResult> News(int? page)
         {
             var dateInThePast = DateTime.Now.AddDays(-7);
-            var products = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Date > dateInThePast)
-                                        .OrderByDescending(p => p.Date)
-                                        .Take(10)
-                                        .Include(p => p.Category);
-
-            // wyświetlanie cen netto, jeśli użytkownik zalogowany i ma tak ustawione w profilu
-            if (User.Identity.IsAuthenticated && im.GetCurentUser().Netto)
+            var total = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Date > dateInThePast)
+                                            .OrderByDescending(p => p.Date)
+                                            .Take(10)
+                                            .Count();
+            var elemsPerSize = 10;
+            // wyświetlanie liczby produktów ustawionych w profilu, jeśli użytkownik zalogowany
+            if (User.Identity.IsAuthenticated)
             {
-                await products.ForEachAsync(p => {
-                    if(p.VAT != -1)
-                        p.Price -= p.Price*(p.VAT*(decimal)0.01);
-                });
+                elemsPerSize = im.GetCurentUser().ProductsPerPage;
             }
-            
-            return View(await products.ToListAsync());
+            var skip = 0;
+            if (page != null)
+            {
+                skip = (int)(elemsPerSize * (page - 1));
+            }
+            var canPage = skip < total;
+
+            if (!canPage)
+            {
+                return View();
+            }
+            else
+            {
+                var products = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Date > dateInThePast)
+                                            .OrderByDescending(p => p.Date)
+                                            .Take(10)
+                                            .Skip(skip)
+                                            .Take(elemsPerSize)
+                                            .Include(p => p.Category);
+
+                // wyświetlanie cen netto, jeśli użytkownik zalogowany i ma tak ustawione w profilu
+                if (User.Identity.IsAuthenticated && im.GetCurentUser().Netto)
+                {
+                    await products.ForEachAsync(p => {
+                        if (p.VAT != -1)
+                            p.Price -= p.Price * (p.VAT * (decimal)0.01);
+                    });
+                }
+
+                ViewBag.CurrentPage = page ?? 1;
+                ViewBag.NumberOfPages = Math.Ceiling(total / (double)elemsPerSize);
+
+                return View(await products.ToListAsync());
+            }
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> Sales()
+        public async Task<ActionResult> Sales(int? page)
         {
-            var products = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Discount != 0)
+            var total = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Discount != 0).Count();
+            var elemsPerSize = 10;
+            // wyświetlanie liczby produktów ustawionych w profilu, jeśli użytkownik zalogowany
+            if (User.Identity.IsAuthenticated)
+            {
+                elemsPerSize = im.GetCurentUser().ProductsPerPage;
+            }
+            var skip = 0;
+            if (page != null)
+            {
+                skip = (int)(elemsPerSize * (page - 1));
+            }
+            var canPage = skip < total;
+
+            if (!canPage)
+            {
+                return View();
+            }
+            else
+            {
+                var products = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Discount != 0)
+                                        .OrderBy(x => x.Category.Name.ToLower())
+                                        .Skip(skip)
+                                        .Take(elemsPerSize)
                                         .Include(p => p.Category);
 
-            // wyświetlanie cen netto, jeśli użytkownik zalogowany i ma tak ustawione w profilu
-            if (User.Identity.IsAuthenticated && im.GetCurentUser().Netto)
-            {
-                await products.ForEachAsync(p => {
-                    if (p.VAT != -1)
-                        p.Price -= p.Price * (p.VAT * (decimal)0.01);
-                });
-            }
+                // wyświetlanie cen netto, jeśli użytkownik zalogowany i ma tak ustawione w profilu
+                if (User.Identity.IsAuthenticated && im.GetCurentUser().Netto)
+                {
+                    await products.ForEachAsync(p => {
+                        if (p.VAT != -1)
+                            p.Price -= p.Price * (p.VAT * (decimal)0.01);
+                    });
+                }
 
-            return View(await products.ToListAsync());
+                ViewBag.CurrentPage = page ?? 1;
+                ViewBag.NumberOfPages = Math.Ceiling(total / (double)elemsPerSize);
+
+                return View(await products.ToListAsync());
+            }
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> BestSellers()
+        public async Task<ActionResult> BestSellers(int? page)
         {
-            var products = db.Products.Where(p => p.Deleted == false && p.Visible == true)
-                                        .OrderByDescending(p=>p.SalesCounter)
+            var total = db.Products.Where(p => p.Deleted == false && p.Visible == true)
+                                    .OrderByDescending(p => p.SalesCounter)
+                                    .Take(10)
+                                    .Count();
+            var elemsPerSize = 10;
+            // wyświetlanie liczby produktów ustawionych w profilu, jeśli użytkownik zalogowany
+            if (User.Identity.IsAuthenticated)
+            {
+                elemsPerSize = im.GetCurentUser().ProductsPerPage;
+            }
+            var skip = 0;
+            if (page != null)
+            {
+                skip = (int)(elemsPerSize * (page - 1));
+            }
+            var canPage = skip < total;
+
+            if (!canPage)
+            {
+                return View();
+            }
+            else
+            {
+                var products = db.Products.Where(p => p.Deleted == false && p.Visible == true)
+                                        .OrderByDescending(p => p.SalesCounter)
                                         .Take(10)
+                                        .Skip(skip)
+                                        .Take(elemsPerSize)
                                         .Include(p => p.Category);
 
-            // wyświetlanie cen netto, jeśli użytkownik zalogowany i ma tak ustawione w profilu
-            if (User.Identity.IsAuthenticated && im.GetCurentUser().Netto)
-            {
-                await products.ForEachAsync(p => {
-                    if (p.VAT != -1)
-                        p.Price -= p.Price * (p.VAT * (decimal)0.01);
-                });
-            }
+                // wyświetlanie cen netto, jeśli użytkownik zalogowany i ma tak ustawione w profilu
+                if (User.Identity.IsAuthenticated && im.GetCurentUser().Netto)
+                {
+                    await products.ForEachAsync(p => {
+                        if (p.VAT != -1)
+                            p.Price -= p.Price * (p.VAT * (decimal)0.01);
+                    });
+                }
 
-            return View(await products.ToListAsync());
+                ViewBag.CurrentPage = page ?? 1;
+                ViewBag.NumberOfPages = Math.Ceiling(total / (double)elemsPerSize);
+
+                return View(await products.ToListAsync());
+            }
         }
 
         protected override void Dispose(bool disposing)

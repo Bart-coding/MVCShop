@@ -57,3 +57,23 @@
     }
 
 </table>
+
+@if (ViewBag.NumberOfPages != 1)
+{
+    <nav class="text-center">
+        <ul class="pagination justify-content-center">
+            <li class="@(ViewBag.CurrentPage == 1 ? "page-item disabled" : "page-item")">
+                <a class="page-link" href="@(ViewBag.CurrentPage == 1 ? null : @Url.Action("News", new { page = ViewBag.CurrentPage -1 }))">Wstecz</a>
+            </li>
+            @for (int i = 1; i <= ViewBag.NumberOfPages; i++)
+            {
+                <li class="@(i == ViewBag.CurrentPage ? "page-item active" : "page-item")">
+                    <a class="page-link" href="@Url.Action("News", new { page = i })">@i</a>
+                </li>
+            }
+            <li class="@(ViewBag.CurrentPage == ViewBag.NumberOfPages ? "page-item disabled" : "page-item")">
+                <a class="page-link" href="@(ViewBag.CurrentPage == ViewBag.NumberOfPages ? null : @Url.Action("News", new { page = ViewBag.CurrentPage + 1 }))">Dalej</a>
+            </li>
+        </ul>
+    </nav>
+}
