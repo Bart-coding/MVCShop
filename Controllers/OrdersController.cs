@@ -1,11 +1,15 @@
-﻿using MVCShop.Models;
+﻿using Microsoft.AspNet.Identity;
+using MVCShop.Models;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace MVCShop.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class OrdersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -114,6 +118,22 @@ namespace MVCShop.Controllers
             db.Orders.Remove(order);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [OverrideAuthorization]
+        [Authorize]
+        public async Task<ActionResult> UserHistory()
+        {
+            var userId = User.Identity.GetUserId();
+            var orders = await db.Orders.Where(o => o.UserID == userId).Include(o => o.User).ToListAsync();
+            orders.ForEach(o => 
+            {
+                o.OrderProducts = db.OrderProducts.Where(op => op.OrderID == o.OrderID)
+                                                .Include(x => x.Product)
+                                                .ToList();
+            });
+
+            return View(orders);
         }
 
         protected override void Dispose(bool disposing)
