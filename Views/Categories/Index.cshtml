@@ -4,15 +4,15 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>KATEGORIE</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Dodaj nową", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CategoryType.Name)
+            @Html.DisplayNameFor(model => model.CategoryTypeID)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -26,7 +26,15 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.CategoryType.Name)
+            @if (item.CategoryTypeID == null)
+            {
+                @Html.DisplayName("brak")
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.CategoryType.Name)
+            }
+
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -35,9 +43,9 @@
             @Html.DisplayFor(modelItem => item.Visible)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CategoryID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CategoryID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CategoryID })
+            @Html.ActionLink("Edytuj", "Edit", new { id=item.CategoryID }) |
+            @Html.ActionLink("Szczegóły", "Details", new { id=item.CategoryID }) |
+            @Html.ActionLink("Usuń", "Delete", new { id=item.CategoryID })
         </td>
     </tr>
 }
