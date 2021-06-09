@@ -9,12 +9,15 @@ namespace MVCShop.Models
         [ForeignKey("User")]
         public string UserID { get; set; }
 
+        [Required]
         [Display(Name = "Kod pocztowy")]
         public string PostalCode { get; set; }
 
+        [Required]
         [Display(Name = "Miejscowość")]
         public string City { get; set; }
 
+        [Required]
         [Display(Name = "Ulica")]
         public string StreetAddress { get; set; }
 

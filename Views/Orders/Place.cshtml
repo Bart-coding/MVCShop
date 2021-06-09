@@ -1,0 +1,57 @@
+﻿@model MVCShop.DTO.OrderProductsDto
+
+@{
+    ViewBag.Title = "Place";
+}
+
+<h2>Wysyłka i płatność</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Products)
+        <div class="form-group">
+            @Html.LabelFor(model => model.PaymentMethod, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="@Html.NameFor(model => model.PaymentMethod)" class="form-control">
+                    <option value="Przelew">Przelew</option>
+                    <option value="PayU">PayU</option>
+                    <option value="PayPal">PayPal</option>
+                    <option value="BLIK">BLIK</option>
+                    <option value="Karta Kredytowa">Karta Kredytowa</option>
+                    <option value="Płatność przy odbiorze">Płatność przy odbiorze</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.PaymentMethod, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShippingMethod, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="@Html.NameFor(model => model.ShippingMethod)" class="form-control">
+                    <option value="Paczkomat InPost">Paczkomat InPost</option>
+                    <option value="Kurier DPD">Kurier DPD</option>
+                    <option value="Kurier InPost">Kurier InPost</option>
+                    <option value="Poczta Polska">Poczta Polska</option>
+                    <option value="Odbiór osobisty">Odbiór osobisty</option>
+                    <option value="Odbiór w punkcie (RUCH, Żabka, Poczta Polska)">Odbiór w punkcie (RUCH, Żabka, Poczta Polska)</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.ShippingMethod, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zapłać" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

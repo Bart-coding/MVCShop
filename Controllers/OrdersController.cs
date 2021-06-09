@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using MVCShop.DTO;
 using MVCShop.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -134,6 +135,69 @@ namespace MVCShop.Controllers
             });
 
             return View(orders);
+        }
+
+        [OverrideAuthorization]
+        [Authorize]
+        public ActionResult Place(List<ProductsCountDto> productsCounts)
+        {
+            OrderProductsDto orderProducts = new OrderProductsDto
+            {
+                Products = productsCounts
+            };
+
+            return View(orderProducts);
+        }
+        
+        [OverrideAuthorization]
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Place([Bind(Include = "PaymentMethod,ShippingMethod,Products")] OrderProductsDto orderProductsDto)
+        {
+            if (ModelState.IsValid)
+            {
+                // dodanie zamowienia od bazy danych
+                Order order = new Order
+                {
+                    State = "przyjęte",
+                    PaymentMethod = orderProductsDto.PaymentMethod,
+                    ShippingMethod = orderProductsDto.ShippingMethod,
+                    UserID = User.Identity.GetUserId()
+                };
+                order = db.Orders.Add(order);
+                await db.SaveChangesAsync();
+
+                // id produktow, ktore kupil user + ich licznosc
+                var productsCounts = orderProductsDto.Products;
+
+                // pobranie obiektow produktow z bazy danych
+                var products = db.Products.Where(p => productsCounts.Any(x => x.ProductID == p.ProductID));
+
+                foreach(var product in products)
+                {
+                    // ile tych produktow kupil user
+                    var numberOfProducts = productsCounts.Find(x => x.ProductID == product.ProductID).Count;
+
+                    product.SalesCounter += numberOfProducts;
+                    product.Quantity -= numberOfProducts;
+
+                    // modyfikacja produktu w bazie danych
+                    db.Entry(product).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+
+                    // dodanie rekordu tabeli lacznikowej
+                    OrderProduct orderProduct = new OrderProduct
+                    {
+                        OrderID = order.OrderID,
+                        ProductID = product.ProductID,
+                        NumberOfProducts = numberOfProducts
+                    };
+                    db.OrderProducts.Add(orderProduct);
+                    await db.SaveChangesAsync();
+                }
+            }
+            return View();
         }
 
         protected override void Dispose(bool disposing)

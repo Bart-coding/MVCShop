@@ -10,12 +10,15 @@ namespace MVCShop.Models
         [Display(Name = "Stan")]
         public string State { get; set; }
 
+        [Required]
         [Display(Name = "Metoda płatności")]
         public string PaymentMethod { get; set; }
 
+        [Required]
         [Display(Name = "Sposób wysyłki")]
         public string ShippingMethod { get; set; }
 
+        [Required]
         public string UserID { get; set; }
         public virtual ApplicationUser User { get; set; }
 

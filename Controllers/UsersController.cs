@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity.Owin;
 using MVCShop.Models;
 using System.Data.Entity;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
@@ -153,6 +151,20 @@ namespace MVCShop.Controllers
             await db.SaveChangesAsync();
 
             return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+                if (_userManager != null)
+                {
+                    _userManager.Dispose();
+                    _userManager = null;
+                }
+            }
+            base.Dispose(disposing);
         }
     }
 }

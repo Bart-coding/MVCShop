@@ -177,6 +177,8 @@
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="DTO\OrderProductsDto.cs" />
+    <Compile Include="DTO\ProductsCountDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -191,6 +193,10 @@
     <Compile Include="Migrations\202105051343147_add_annotations_to_product.cs" />
     <Compile Include="Migrations\202105051343147_add_annotations_to_product.Designer.cs">
       <DependentUpon>202105051343147_add_annotations_to_product.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106092033554_update_orderProduct.cs" />
+    <Compile Include="Migrations\202106092033554_update_orderProduct.Designer.cs">
+      <DependentUpon>202106092033554_update_orderProduct.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -303,6 +309,7 @@
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Orders\UserHistory.cshtml" />
+    <Content Include="Views\Orders\Place.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -326,6 +333,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202105051343147_add_annotations_to_product.resx">
       <DependentUpon>202105051343147_add_annotations_to_product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106092033554_update_orderProduct.resx">
+      <DependentUpon>202106092033554_update_orderProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
