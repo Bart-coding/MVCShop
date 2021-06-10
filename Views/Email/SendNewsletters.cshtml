@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "SendNewsletters";
+}
+
+<h3>@ViewBag.Message</h3>
+
+@if (!ViewBag.Confirmed)
+{
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Wyślij" class="btn btn-success" />
+        </div>
+    }
+}
+
+@Html.ActionLink("Powrót", null, null, null, new { href = Request.UrlReferrer })

@@ -21,18 +21,23 @@
             </div>*@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
-                    <li>@Html.ActionLink("O nas", "About", "Home")</li>
-                    <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Nowości", "News", "Products")</li>
-                    <li>@Html.ActionLink("Promocje", "Sales", "Products")</li>
-                    <li>@Html.ActionLink("Bestsellery", "Bestsellers", "Products")</li>
+                    @if (!User.IsInRole("admin"))
+                    {
+                        <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
+                        <li>@Html.ActionLink("O nas", "About", "Home")</li>
+                        <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("Nowości", "News", "Products")</li>
+                        <li>@Html.ActionLink("Promocje", "Sales", "Products")</li>
+                        <li>@Html.ActionLink("Bestsellery", "Bestsellers", "Products")</li>
+                    }
                     @if (User.IsInRole("admin"))
                     {
+                        <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
                         <li>@Html.ActionLink("Produkty", "Index", "Products")</li>
                         <li>@Html.ActionLink("Kosz", "RecycleBin", "Products")</li>
                         <li>@Html.ActionLink("Kategorie", "Index", "Categories")</li>
                         <li>@Html.ActionLink("Klienci", "Index", "Users")</li>
+                        <li>@Html.ActionLink("Wyślij Newsletter", "SendNewsletters", "Email")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
