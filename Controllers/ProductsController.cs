@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace MVCShop.Controllers
@@ -37,7 +38,7 @@ namespace MVCShop.Controllers
             else
             {
                 var products = db.Products.Where(p => p.Deleted == false)
-                                        .OrderBy(x => x.Category.Name.ToLower())
+                                        .OrderBy(x => x.CategoryID)
                                         .Skip(skip)
                                         .Take(elemsPerSize)
                                         .Include(p => p.Category);
@@ -107,14 +108,13 @@ namespace MVCShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Product model)
+        public async Task<ActionResult> Create(Product model, HttpPostedFileBase imageInput)
         {
             Product product = new Product
             {
                 Name = model.Name,
                 Price = model.Price,
                 Descritpion = model.Descritpion,
-                Picture = model.Picture,
                 Date = DateTime.Now,
                 VAT = model.VAT,
                 Quantity = model.Quantity,
@@ -123,6 +123,17 @@ namespace MVCShop.Controllers
             };
             if (ModelState.IsValid)
             {
+                if(imageInput != null)
+                {
+                    if(imageInput.ContentType != "image/jpeg")
+                    {
+                        ModelState.AddModelError("Picture", "Musisz wybrać plik z rozszerzeniem image/jpeg");
+                        ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name", product.CategoryID);
+                        return View(product);
+                    }
+                    product.Picture = new byte[imageInput.ContentLength];
+                    imageInput.InputStream.Read(product.Picture, 0, imageInput.ContentLength);
+                }
                 db.Products.Add(product);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -149,10 +160,21 @@ namespace MVCShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ProductID,Name,Price,Descritpion,Picture,Date,Discount,VAT,Deleted,Quantity,SalesCounter,Visible,CategoryID")] Product product)
+        public async Task<ActionResult> Edit([Bind(Include = "ProductID,Name,Price,Descritpion,Picture,Date,Discount,VAT,Deleted,Quantity,SalesCounter,Visible,CategoryID")] Product product, HttpPostedFileBase imageInput)
         {
             if (ModelState.IsValid)
             {
+                if (imageInput != null)
+                {
+                    if (imageInput.ContentType != "image/jpeg")
+                    {
+                        ModelState.AddModelError("Picture", "Musisz wybrać plik z rozszerzeniem image/jpeg");
+                        ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name", product.CategoryID);
+                        return View(product);
+                    }
+                    product.Picture = new byte[imageInput.ContentLength];
+                    imageInput.InputStream.Read(product.Picture, 0, imageInput.ContentLength);
+                }
                 db.Entry(product).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -309,7 +331,7 @@ namespace MVCShop.Controllers
             else
             {
                 var products = db.Products.Where(p => p.Deleted == false && p.Visible == true && p.Discount != 0)
-                                        .OrderBy(x => x.Category.Name.ToLower())
+                                        .OrderBy(x => x.CategoryID)
                                         .Skip(skip)
                                         .Take(elemsPerSize)
                                         .Include(p => p.Category);

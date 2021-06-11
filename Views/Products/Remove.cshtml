@@ -47,7 +47,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Picture)
+            @if (Model.Picture != null)
+            {
+                <img src="data:image;base64,@System.Convert.ToBase64String(Model.Picture)" width="200" height="200" />
+            }
+            else
+            {
+                <img src="#" alt="zdjęcie" width="200" height="200" />
+            }
         </dd>
 
         <dt>
