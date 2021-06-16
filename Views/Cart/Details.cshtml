@@ -1,0 +1,111 @@
+﻿@model MVCShop.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>SZCZEGÓŁY PRODUKTU</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descritpion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descritpion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Picture)
+        </dt>
+
+        <dd>
+            @if (Model.Picture != null)
+            {
+                <img src="data:image;base64,@System.Convert.ToBase64String(Model.Picture)" width="200" height="200" />
+            }
+            else
+            {
+                <img src="#" alt="zdjęcie" width="200" height="200" />
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Discount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Discount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VAT)
+        </dt>
+
+        <dd>
+            @if (Model.VAT == -1)
+            {
+                @Html.DisplayName("zwolnienie");
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.VAT)
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SalesCounter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalesCounter)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Usuń", "Delete", new { id = Model.ProductID }) |
+    @Html.ActionLink("Powrót do koszyka", "Index")
+</p>

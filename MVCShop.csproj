@@ -175,6 +175,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AddressesController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\ShowProductsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DTO\OrderProductsDto.cs" />
     <Compile Include="DTO\ProductsCountDto.cs" />
@@ -318,6 +320,9 @@
     <Content Include="Views\Orders\UserHistory.cshtml" />
     <Content Include="Views\Orders\Place.cshtml" />
     <Content Include="Views\Email\SendNewsletters.cshtml" />
+    <Content Include="Views\ShowProducts\Index.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

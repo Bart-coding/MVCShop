@@ -24,11 +24,13 @@
                     @if (!User.IsInRole("admin"))
                     {
                         <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
-                        <li>@Html.ActionLink("O nas", "About", "Home")</li>
-                        <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("Produkty", "Index", "ShowProducts")</li>
                         <li>@Html.ActionLink("Nowości", "News", "Products")</li>
                         <li>@Html.ActionLink("Promocje", "Sales", "Products")</li>
                         <li>@Html.ActionLink("Bestsellery", "Bestsellers", "Products")</li>
+                        <li>@Html.ActionLink("O nas", "About", "Home")</li>
+                        <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("Koszyk", "Index", "Cart")</li>
                     }
                     @if (User.IsInRole("admin"))
                     {
@@ -48,7 +50,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - MVCShop</p>
         </footer>
     </div>
 

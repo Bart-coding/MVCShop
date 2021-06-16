@@ -1,0 +1,101 @@
+﻿@model IEnumerable<MVCShop.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Lista produktów</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descritpion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Picture)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Discount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SalesCounter)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descritpion)
+            </td>
+            <td>
+                @if (item.Picture != null)
+                {
+                    <img src="data:image;base64,@System.Convert.ToBase64String(item.Picture)" width="80" height="80" />
+                }
+                else
+                {
+                    <img src="#" alt="zdjęcie" width="80" height="80" />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SalesCounter)
+            </td>
+            <td>
+                @Html.ActionLink("Kup", "Buy", new { id = item.ProductID })
+                |
+                @Html.ActionLink("Details", "Details", new { id = item.ProductID })
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+@if (ViewBag.NumberOfPages != 1)
+{
+    <nav class="text-center">
+        <ul class="pagination justify-content-center">
+            <li class="@(ViewBag.CurrentPage == 1 ? "page-item disabled" : "page-item")">
+                <a class="page-link" href="@(ViewBag.CurrentPage == 1 ? null : @Url.Action("Index", new { page = ViewBag.CurrentPage -1 }))">Wstecz</a>
+            </li>
+            @for (int i = 1; i <= ViewBag.NumberOfPages; i++)
+            {
+                <li class="@(i == ViewBag.CurrentPage ? "page-item active" : "page-item")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                </li>
+            }
+            <li class="@(ViewBag.CurrentPage == ViewBag.NumberOfPages ? "page-item disabled" : "page-item")">
+                <a class="page-link" href="@(ViewBag.CurrentPage == ViewBag.NumberOfPages ? null : @Url.Action("Index", new { page = ViewBag.CurrentPage + 1 }))">Dalej</a>
+            </li>
+        </ul>
+    </nav>
+}
