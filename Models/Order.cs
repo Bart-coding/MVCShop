@@ -23,6 +23,7 @@ namespace MVCShop.Models
         public decimal Cost { get; set; }
 
         [Required]
+        [Display(Name = "Klient")]
         public string UserID { get; set; }
         public virtual ApplicationUser User { get; set; }
 

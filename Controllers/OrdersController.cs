@@ -34,6 +34,7 @@ namespace MVCShop.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.OrderProducts = await db.OrderProducts.Where(o => o.OrderID == id).Include(o => o.Product).ToListAsync();
             return View(order);
         }
 
@@ -74,7 +75,6 @@ namespace MVCShop.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.UserID = new SelectList(db.Users, "Id", "Name", order.UserID);
             return View(order);
         }
 
@@ -157,7 +157,7 @@ namespace MVCShop.Controllers
                 // dodanie zamowienia od bazy danych
                 Order order = new Order
                 {
-                    State = "przyjęte",
+                    State = "nowe",
                     PaymentMethod = orderProductsDto.PaymentMethod,
                     ShippingMethod = orderProductsDto.ShippingMethod,
                     Cost = (decimal)cartSum,

@@ -1,21 +1,20 @@
 ﻿@model MVCShop.Models.Order
-
+@using MVCShop.Models
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>SZCZEGÓŁY ZAMÓWIENIA</h2>
 
 <div>
-    <h4>Order</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.User.Name)
+            @Html.DisplayNameFor(model => model.UserID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.Name)
+            @Html.DisplayFor(model => model.User.Email)
         </dd>
 
         <dt>
@@ -42,9 +41,20 @@
             @Html.DisplayFor(model => model.ShippingMethod)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderProducts)
+        </dt>
+
+        <dd>
+            @foreach(var item in (List<OrderProduct>)ViewBag.OrderProducts)
+            {
+                <div class="row" style="margin-left: 1px">@item.Product.Name</div>
+            }
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edytuj", "Edit", new { id = Model.OrderID }) |
+    @Html.ActionLink("Powrót do Listy", "Index")
 </p>
