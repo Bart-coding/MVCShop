@@ -19,10 +19,15 @@ namespace MVCShop.Models
         public string ShippingMethod { get; set; }
 
         [Required]
+        [Display(Name = "Koszt zamówienia")]
+        public decimal Cost { get; set; }
+
+        [Required]
         public string UserID { get; set; }
         public virtual ApplicationUser User { get; set; }
 
         [Display(Name = "Produkty")]
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MVCShop.Models;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -55,16 +56,21 @@ namespace MVCShop.Controllers
                 ViewBag.CurrentPage = page ?? 1;
                 ViewBag.NumberOfPages = Math.Ceiling(total / (double)elemsPerSize);
 
+                /*var dbCategories = await db.Categories.ToListAsync();
+                var dbCategoriesNames = new List<string>();
+                ViewBag.categoriesNames = new SelectList(dbCategoriesNames.Distinct());*/
+
+
+
                 return View(await products.ToListAsync());
             }
         }
 
-        public ActionResult Buy (int? productId)
-        {   //return RedirectToAction("AddToCart", "Cart", {productId});
-            //RedirectToAction("AddToCart", new RouteValueDictionary(
-            // new { controller = "Cart", action = "AddToCart", productId = 2 }));
-            if (productId != null)
-                return RedirectToAction("Add", "Cart", new { productId });
+        [Authorize(Roles = "user")]
+        public ActionResult Buy (int? id)
+        {   
+            if (id != null)
+                return RedirectToAction("Add", "Cart", new { id });
             else
                return RedirectToAction("Index");
         }

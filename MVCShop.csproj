@@ -207,6 +207,10 @@
     <Compile Include="Migrations\202106092033554_update_orderProduct.Designer.cs">
       <DependentUpon>202106092033554_update_orderProduct.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106170956174_add_cost_to_order.cs" />
+    <Compile Include="Migrations\202106170956174_add_cost_to_order.Designer.cs">
+      <DependentUpon>202106170956174_add_cost_to_order.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -349,6 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202106092033554_update_orderProduct.resx">
       <DependentUpon>202106092033554_update_orderProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106170956174_add_cost_to_order.resx">
+      <DependentUpon>202106170956174_add_cost_to_order.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

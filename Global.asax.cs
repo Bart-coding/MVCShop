@@ -16,6 +16,15 @@ namespace MVCShop
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            int visitsCount;
+            if (Application["visitsCount"] != null)
+                visitsCount = (int)Application["Totaluser"] + 1;
+            else
+                visitsCount = 1;
+            Application.Lock();
+            Application["visitsCount"] = visitsCount;
+            Application.UnLock();
         }
     }
 }

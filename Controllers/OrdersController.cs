@@ -139,40 +139,41 @@ namespace MVCShop.Controllers
 
         [OverrideAuthorization]
         [Authorize]
-        public ActionResult Place(List<ProductsCountDto> productsCounts)
+        public ActionResult Place()
         {
-            OrderProductsDto orderProducts = new OrderProductsDto
-            {
-                Products = productsCounts
-            };
-
-            return View(orderProducts);
+            return View(new OrderProductsDto());
         }
         
         [OverrideAuthorization]
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Place([Bind(Include = "PaymentMethod,ShippingMethod,Products")] OrderProductsDto orderProductsDto)
+        public async Task<ActionResult> Place([Bind(Include = "PaymentMethod,ShippingMethod")] OrderProductsDto orderProductsDto)
         {
             if (ModelState.IsValid)
             {
+
+                int cartSum = (int) Session["cartSum"];
                 // dodanie zamowienia od bazy danych
                 Order order = new Order
                 {
                     State = "przyjęte",
                     PaymentMethod = orderProductsDto.PaymentMethod,
                     ShippingMethod = orderProductsDto.ShippingMethod,
+                    Cost = cartSum,
                     UserID = User.Identity.GetUserId()
                 };
                 order = db.Orders.Add(order);
                 await db.SaveChangesAsync();
 
                 // id produktow, ktore kupil user + ich licznosc
-                var productsCounts = orderProductsDto.Products;
+                List<ProductsCountDto> productsCounts = (List<ProductsCountDto>)Session["cart"];
 
-                // pobranie obiektow produktow z bazy danych
-                var products = db.Products.Where(p => productsCounts.Any(x => x.ProductID == p.ProductID));
+                
+                var products = new List<Product>();
+                
+                productsCounts.ForEach(p => products.Add(db.Products.Find(p.ProductID)));
+                
 
                 foreach(var product in products)
                 {
@@ -196,6 +197,9 @@ namespace MVCShop.Controllers
                     db.OrderProducts.Add(orderProduct);
                     await db.SaveChangesAsync();
                 }
+                Session["cart"] = null;
+                Session["cartSum"] = null;
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }

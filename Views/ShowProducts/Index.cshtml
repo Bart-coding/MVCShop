@@ -6,6 +6,28 @@
 
 <h2>Lista produktów</h2>
 
+<form asp-controller="ShowProducts" asp-action="Index" method="get">
+    @{/*
+        SelectList categoriesNames = (SelectList)ViewBag.categoriesNames;
+        int selectedIndex = 0;
+    }
+    <p>
+        @{ 
+            if (categoriesNames!=null)
+            {
+                <select asp-for="@selectedIndex" asp-items="categoriesNames">
+                    <option value="">Kategoria</option>
+                </select>
+            }
+                
+        */}
+        
+
+        Nazwa: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Filtruj" />
+    </p>
+</form>
+
 <table class="table">
     <tr>
         <th>
@@ -72,7 +94,7 @@
             <td>
                 @Html.ActionLink("Kup", "Buy", new { id = item.ProductID })
                 |
-                @Html.ActionLink("Details", "Details", new { id = item.ProductID })
+                @Html.ActionLink("Szczegóły", "Details", new { id = item.ProductID })
 
             </td>
         </tr>

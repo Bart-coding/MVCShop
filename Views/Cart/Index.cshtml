@@ -24,21 +24,18 @@
                     @Html.DisplayNameFor(model => model.Price)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.Discount)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Descritpion)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Picture)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Date)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Discount)
-                </th>
                 <th></th>
             </tr>
             @{ int i = 0;
-               List<int> productQuantities = (List<int>) ViewBag.productsQuantities;}
+                List<int> productQuantities = (List<int>)ViewBag.productsQuantities;}
             @{
 
                 foreach (var item in Model)
@@ -59,20 +56,27 @@
                             @Html.DisplayFor(modelItem => item.Price)
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => item.Discount)
+                        </td>
+
+                        <td>
                             @Html.DisplayFor(modelItem => item.Descritpion)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Picture)
+                            @if (item.Picture != null)
+                            {
+                                <img src="data:image;base64,@System.Convert.ToBase64String(item.Picture)" width="80" height="80" />
+                            }
+                            else
+                            {
+                                <img src="#" alt="zdjęcie" width="80" height="80" />
+                            }
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Date)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Discount)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Details", "Details", new { id = item.ProductID }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+                            @Html.ActionLink(" + ", "Increase", new { id = item.ProductID }) |
+                            @Html.ActionLink("- ", "Decrease", new { id = item.ProductID }) |
+                            @Html.ActionLink("Szczegóły", "Details", new { id = item.ProductID }) |
+                            @Html.ActionLink("Usuń wszystkie", "Delete", new { id = item.ProductID })
                         </td>
                     </tr>
                 }
@@ -82,11 +86,12 @@
 
         </table>
 
-        <p><h3>Łącznie do zapłaty: @ViewBag.priceSum</h3></p>
+        <p><h3>Łącznie do zapłaty: @ViewBag.priceSum zł</h3></p>
+        @Html.ActionLink("Złóż zamówienie", "Place", "Orders" , null, new { @class = "btn btn-primary" })
     }
     else
     {
-        <p><h3>Nie dodano jeszcze żadnego produktu</h3></p>
+        <p><h3>Koszyk jest pusty</h3></p>
     }
 
 

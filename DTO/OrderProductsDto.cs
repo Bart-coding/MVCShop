@@ -13,6 +13,5 @@ namespace MVCShop.DTO
         [Display(Name = "Sposób wysyłki")]
         public string ShippingMethod { get; set; }
 
-        public List<ProductsCountDto> Products { get; set; }
     }
 }
