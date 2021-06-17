@@ -5,18 +5,14 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 
 namespace MVCShop.Controllers
 {
     public class ShowProductsController : Controller
     {
-        // GET: ShowProducts
         private ApplicationDbContext db = new ApplicationDbContext();
         private IdentityManager im = new IdentityManager();
-
         
         public async Task<ActionResult> Index(int? page)
         {
@@ -25,11 +21,10 @@ namespace MVCShop.Controllers
             int discount;
             if (user!=null)
             {
-                netto = user.Netto; //
-                discount = user.PersonalDiscount; //
+                netto = user.Netto;
+                discount = user.PersonalDiscount;
 
             }
-                
 
             var productsToShow = db.Products.Where(p => p.Deleted == false && p.Visible == true);
 
@@ -73,6 +68,19 @@ namespace MVCShop.Controllers
             }
         }
 
+        public async Task<ActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = await db.Products.FindAsync(id);
+            if (product == null || (User.IsInRole("user") && (product.Deleted || !product.Visible)))
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
         [Authorize(Roles = "user")]
         public ActionResult Buy (int? id)
         {   
@@ -81,6 +89,5 @@ namespace MVCShop.Controllers
             else
                return RedirectToAction("Index");
         }
-        
     }
 }

@@ -327,6 +327,7 @@
     <Content Include="Views\ShowProducts\Index.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\Details.cshtml" />
+    <Content Include="Views\ShowProducts\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

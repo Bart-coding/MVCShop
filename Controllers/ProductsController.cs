@@ -15,7 +15,6 @@ namespace MVCShop.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private IdentityManager im = new IdentityManager();
 
-        
         public async Task<ActionResult> Index(int? page)
         {
             var total = db.Products.Where(p => p.Deleted == false).Count();
@@ -86,9 +85,6 @@ namespace MVCShop.Controllers
             }
         }
 
-        [OverrideAuthorization]
-        [Authorize(Roles = "user")]
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -96,7 +92,7 @@ namespace MVCShop.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = await db.Products.FindAsync(id);
-            if (product == null || (User.IsInRole("user") && (product.Deleted || !product.Visible)))
+            if (product == null)
             {
                 return HttpNotFound();
             }
@@ -110,7 +106,6 @@ namespace MVCShop.Controllers
             return View();
         }
 
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Product model, HttpPostedFileBase imageInput)
@@ -148,7 +143,6 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)

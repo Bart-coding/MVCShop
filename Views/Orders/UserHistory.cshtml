@@ -43,7 +43,7 @@ else
                 <td>
                     @foreach (var it in item.OrderProducts)
                     {
-                    <p>@Html.ActionLink((it.Product.Name), "Details", "Products", new { id = it.Product.Name })</p>
+                        <p>@Html.ActionLink((it.Product.Name), "Details", "ShowProducts", new { id = it.ProductID }, null)</p>
                     }
                 </td>
                 <td>
