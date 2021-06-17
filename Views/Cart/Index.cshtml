@@ -86,8 +86,20 @@
 
         </table>
 
-        <p><h3>Łącznie do zapłaty: @ViewBag.priceSum zł</h3></p>
-        @Html.ActionLink("Złóż zamówienie", "Place", "Orders" , null, new { @class = "btn btn-primary" })
+
+        if (ViewBag.priceSumBeforeDiscount != null)
+        {
+           <p><h3>Łącznie do zapłaty: <del>@ViewBag.priceSumBeforeDiscount zł</del> @ViewBag.priceSum zł</h3></p>
+
+        }
+        else
+        {
+           <p><h3>Łącznie do zapłaty: @ViewBag.priceSum zł</h3></p>
+
+        }
+
+
+        @Html.ActionLink("Złóż zamówienie", "Place", "Orders", null, new { @class = "btn btn-primary" })
     }
     else
     {

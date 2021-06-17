@@ -32,8 +32,13 @@ namespace MVCShop.Controllers
             List<Product> listToShow = new List<Product>();
             List<int> productsQuantities = new List<int>();
             double priceSum = 0;
+            double priceSumBeforeDiscount;
             Product tempProduct;
             int tempProductID, tempQuantity;
+            int personalDiscount = im.GetCurentUser().PersonalDiscount;
+            int productDiscount;
+            decimal productPrice;
+            double productCost = 0;
             for (int i = 0; i < cartProducts.Count; i++)
             {
                 tempProductID = cartProducts[i].ProductID;
@@ -41,9 +46,25 @@ namespace MVCShop.Controllers
                 listToShow.Add(tempProduct);
                 tempQuantity = cartProducts[i].Count;
                 productsQuantities.Add(tempQuantity);
-                priceSum += Math.Round((double)((tempProduct.Price - ((tempProduct.Price* tempProduct.Discount)/100)) * tempQuantity),2);
+
+                productDiscount = tempProduct.Discount;
+                productPrice = tempProduct.Price;
+
+                productCost = (double)((productPrice - ((productPrice * productDiscount) / 100)));
+
+                priceSum += productCost * tempQuantity;
 
             }
+
+            ViewBag.priceSumBeforeDiscount = null;
+            if (personalDiscount>0)
+            {
+                priceSumBeforeDiscount = priceSum;
+                priceSum = priceSum - ((priceSum * personalDiscount) / 100);
+                ViewBag.priceSumBeforeDiscount = priceSumBeforeDiscount;
+            }
+
+            priceSum = Math.Round(priceSum, 2);
 
             ViewBag.productsQuantities = productsQuantities;
             ViewBag.priceSum = priceSum;

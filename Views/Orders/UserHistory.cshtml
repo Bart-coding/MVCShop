@@ -31,15 +31,9 @@ else
             </th>
             <th></th>
         </tr>
-        @{ 
-            int i = 0;
-        }
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @(++i).
-                </td>
                 <td>
                     @foreach (var it in item.OrderProducts)
                     {
