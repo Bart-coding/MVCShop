@@ -56,10 +56,12 @@ else
                     @Html.DisplayFor(modelItem => item.State)
                 </td>
                 <td>
-                    @Html.ActionLink("Złóż ponownie", "Reorder", new { id = item.OrderID })
+                    @Html.ActionLink("Złóż ponownie", "Reorder", new { id = item.OrderID }, new { @class = "btn btn-primary" })
                 </td>
             </tr>
         }
 
     </table>
 }
+
+<p>@Html.ActionLink("Powrót", null, null, null, new { href = Request.UrlReferrer, @class = "btn btn-primary" })</p>
