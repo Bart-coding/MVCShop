@@ -49,7 +49,7 @@ namespace MVCShop.Controllers
 
             ViewBag.productsQuantities = productsQuantities;
             ViewBag.priceSum = priceSum;
-            Session["cartSum"] = priceSum;l
+            Session["cartSum"] = priceSum;
                 
             return View(listToShow);
         }

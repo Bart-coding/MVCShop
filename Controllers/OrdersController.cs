@@ -153,14 +153,14 @@ namespace MVCShop.Controllers
             if (ModelState.IsValid)
             {
 
-                int cartSum = (int) Session["cartSum"];
+                double cartSum = (double) Session["cartSum"];
                 // dodanie zamowienia od bazy danych
                 Order order = new Order
                 {
                     State = "przyjęte",
                     PaymentMethod = orderProductsDto.PaymentMethod,
                     ShippingMethod = orderProductsDto.ShippingMethod,
-                    Cost = cartSum,
+                    Cost = (decimal)cartSum,
                     UserID = User.Identity.GetUserId()
                 };
                 order = db.Orders.Add(order);
