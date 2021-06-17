@@ -73,10 +73,10 @@
                             }
                         </td>
                         <td>
-                            @Html.ActionLink(" + ", "Increase", new { id = item.ProductID }) |
-                            @Html.ActionLink("- ", "Decrease", new { id = item.ProductID }) |
-                            @Html.ActionLink("Szczegóły", "Details", new { id = item.ProductID }) |
-                            @Html.ActionLink("Usuń pozycję", "Delete", new { id = item.ProductID })
+                            @Html.ActionLink(" + ", "Increase", new { id = item.ProductID }, new { @class = "btn btn-primary" }) 
+                            @Html.ActionLink("- ", "Decrease", new { id = item.ProductID }, new { @class = "btn btn-primary" }) 
+                            @Html.ActionLink("Szczegóły", "Details", new { id = item.ProductID }, new { @class = "btn btn-primary" }) 
+                            @Html.ActionLink("Usuń pozycję", "Delete", new { id = item.ProductID }, new { @class = "btn btn-primary" })
                         </td>
                     </tr>
                 }

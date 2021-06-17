@@ -17,7 +17,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
-        <th>
+        <th style="width: 150px">
             @Html.DisplayNameFor(model => model.Descritpion)
         </th>
         <th>
@@ -64,9 +64,8 @@
                 @Html.DisplayFor(modelItem => item.SalesCounter)
             </td>
             <td>
-                @Html.ActionLink("Dodaj do koszyka", "Buy", new { id = item.ProductID })
-                |
-                @Html.ActionLink("Szczegóły", "Details", new { id = item.ProductID })
+                <p style="display: inline-block">@Html.ActionLink("Dodaj do koszyka", "Buy", new { id = item.ProductID }, new { @class = "btn btn-primary" })</p>
+                <p style="display: inline-block">@Html.ActionLink("Szczegóły", "Details", new { id = item.ProductID }, new { @class = "btn btn-primary" })</p>
             </td>
         </tr>
     }
