@@ -41,9 +41,10 @@ else
                     @(++i).
                 </td>
                 <td>
-                    <select asp-for="" asp-items="item.OrdersProducts">
-                        <option value="">Wybierz</option>
-                    </select>
+                    @foreach (var it in item.OrderProducts)
+                    {
+                    <p>@Html.ActionLink((it.Product.Name), "Details", "Products", new { id = it.Product.Name })</p>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cost)

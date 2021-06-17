@@ -9,13 +9,13 @@ using System.Web.Mvc;
 
 namespace MVCShop.Controllers
 {
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private IdentityManager im = new IdentityManager();
 
-        [Authorize(Roles = "admin")]
+        
         public async Task<ActionResult> Index(int? page)
         {
             var total = db.Products.Where(p => p.Deleted == false).Count();
@@ -50,7 +50,7 @@ namespace MVCShop.Controllers
                 return View(await products.ToListAsync());
             }
         }
-        [Authorize(Roles = "admin")]
+        
         public async Task<ActionResult> RecycleBin(int? page)
         {
             var total = db.Products.Where(p => p.Deleted == true).Count();
@@ -86,7 +86,9 @@ namespace MVCShop.Controllers
             }
         }
 
-        [Authorize(Roles = "user,admin")]
+        [OverrideAuthorization]
+        [Authorize(Roles = "user")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -100,7 +102,7 @@ namespace MVCShop.Controllers
             }
             return View(product);
         }
-        [Authorize(Roles = "admin")]
+        
         public ActionResult Create()
         {
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
@@ -108,7 +110,7 @@ namespace MVCShop.Controllers
             return View();
         }
 
-        [Authorize(Roles = "admin")]
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Product model, HttpPostedFileBase imageInput)
@@ -146,7 +148,7 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "admin")]
+        
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -162,7 +164,6 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "ProductID,Name,Price,Descritpion,Picture,Date,Discount,VAT,Deleted,Quantity,SalesCounter,Visible,CategoryID")] Product product, HttpPostedFileBase imageInput)
@@ -188,7 +189,6 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -203,7 +203,6 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
@@ -214,7 +213,6 @@ namespace MVCShop.Controllers
             return RedirectToAction("RecycleBin");
         }
 
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Remove(int? id)
         {
             if (id == null)
@@ -229,7 +227,6 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Remove")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveConfirmed(int id)
@@ -241,7 +238,6 @@ namespace MVCShop.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Restore(int? id)
         {
             if (id == null)
@@ -256,7 +252,6 @@ namespace MVCShop.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Restore")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RestoreConfirmed(int id)
@@ -268,6 +263,7 @@ namespace MVCShop.Controllers
             return RedirectToAction("RecycleBin");
         }
 
+        [OverrideAuthorization]
         [AllowAnonymous]
         public async Task<ActionResult> News(int? page)
         {
@@ -318,6 +314,7 @@ namespace MVCShop.Controllers
             }
         }
 
+        [OverrideAuthorization]
         [AllowAnonymous]
         public async Task<ActionResult> Sales(int? page)
         {
@@ -363,6 +360,7 @@ namespace MVCShop.Controllers
             }
         }
 
+        [OverrideAuthorization]
         [AllowAnonymous]
         public async Task<ActionResult> BestSellers(int? page)
         {
@@ -412,6 +410,7 @@ namespace MVCShop.Controllers
             }
         }
 
+        [OverrideAuthorization]
         [Authorize(Roles ="user")]
         public ActionResult Buy(int? id)
         {
