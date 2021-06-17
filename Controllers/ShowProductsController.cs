@@ -17,12 +17,19 @@ namespace MVCShop.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private IdentityManager im = new IdentityManager();
 
-        [Authorize(Roles ="user")]
+        
         public async Task<ActionResult> Index(int? page)
         {
             var user = im.GetCurentUser();
-            bool netto = user.Netto; //
-            int discount = user.PersonalDiscount; //
+            bool netto;
+            int discount;
+            if (user!=null)
+            {
+                netto = user.Netto; //
+                discount = user.PersonalDiscount; //
+
+            }
+                
 
             var productsToShow = db.Products.Where(p => p.Deleted == false && p.Visible == true);
 
@@ -56,9 +63,9 @@ namespace MVCShop.Controllers
                 ViewBag.CurrentPage = page ?? 1;
                 ViewBag.NumberOfPages = Math.Ceiling(total / (double)elemsPerSize);
 
-                /*var dbCategories = await db.Categories.ToListAsync();
+                var dbCategories = await db.Categories.ToListAsync();//
                 var dbCategoriesNames = new List<string>();
-                ViewBag.categoriesNames = new SelectList(dbCategoriesNames.Distinct());*/
+                ViewBag.categoriesNames = new SelectList(dbCategoriesNames.Distinct());
 
 
 

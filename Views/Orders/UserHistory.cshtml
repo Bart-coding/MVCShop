@@ -15,11 +15,14 @@ else
     <table class="table">
         <tr>
             <th>
+                Lp.
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.OrderProducts)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.State)
-            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.PaymentMethod)
             </th>
@@ -28,19 +31,23 @@ else
             </th>
             <th></th>
         </tr>
-
+        @{ 
+            int i = 0;
+        }
         @foreach (var item in Model)
         {
             <tr>
                 <td>
-                    @foreach(var elem in item.OrderProducts)
-                    {
-                        <p>@Html.Display(elem.Product.Name)</p>
-                    }
+                    @(++i).
                 </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.State)
-                </td>*@
+                <td>
+                    <select asp-for="" asp-items="item.OrdersProducts">
+                        <option value="">Wybierz</option>
+                    </select>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PaymentMethod)
                 </td>
@@ -49,7 +56,7 @@ else
                 </td>
                 <td>
                     @Html.ActionLink("Złóż ponownie", "Reorder", new { id = item.OrderID })
-                    @if (item.State != "niezrealizowane")
+                    @if (item.State == "niezrealizowane")
                     {
                         @Html.DisplayName(" | ")
                         @Html.ActionLink("Zobacz stan zamówienia", "StateDetails", new { id = item.OrderID })

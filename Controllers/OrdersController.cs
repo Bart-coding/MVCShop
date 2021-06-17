@@ -212,5 +212,27 @@ namespace MVCShop.Controllers
             }
             base.Dispose(disposing);
         }
+
+        [OverrideAuthorization]
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult> Reorder (int? id)
+        {
+            Order order = await db.Orders.FindAsync(id);
+
+            List<ProductsCountDto> productsCount = new List<ProductsCountDto>();
+
+            foreach (OrderProduct orderProduct in order.OrderProducts)
+            {
+                productsCount.Add(new ProductsCountDto
+                {
+                    ProductID = orderProduct.ProductID,
+                    Count = orderProduct.NumberOfProducts
+                });
+            }
+
+            Session["cart"] = productsCount;
+
+            return RedirectToAction("Index", "Cart");
+        }
     }
 }
