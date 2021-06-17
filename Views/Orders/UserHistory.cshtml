@@ -29,6 +29,9 @@ else
             <th>
                 @Html.DisplayNameFor(model => model.ShippingMethod)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
             <th></th>
         </tr>
         @{ 
@@ -56,12 +59,10 @@ else
                     @Html.DisplayFor(modelItem => item.ShippingMethod)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
                     @Html.ActionLink("Złóż ponownie", "Reorder", new { id = item.OrderID })
-                    @if (item.State == "niezrealizowane")
-                    {
-                        @Html.DisplayName(" | ")
-                        @Html.ActionLink("Zobacz stan zamówienia", "StateDetails", new { id = item.OrderID })
-                    }
                 </td>
             </tr>
         }
